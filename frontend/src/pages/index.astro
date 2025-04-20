@@ -1,5 +1,6 @@
 ---
 import Counter from '../components/Counter';
+import Test from '../components/Test';
 ---
 
 <html lang="en">
@@ -13,6 +14,7 @@ import Counter from '../components/Counter';
 	<body>
 		<main class="container mx-auto p-4">
 			<h1 class="text-3xl font-bold mb-6">Welcome to Astro + React</h1>
+			<Test client:load />
 			<Counter client:load initialCount={5} />
 		</main>
 	</body>
