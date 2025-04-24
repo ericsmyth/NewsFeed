@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-white text-gray-800 font-sans">
+    <header class="bg-white shadow-sm py-4">
+      <nav class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold text-primary no-underline">NewsFeed</a>
+        <div class="flex gap-4">
+          <a href="/login" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">Login</a>
+          <a href="/register" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">Register</a>
+        </div>
+      </nav>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 my-8 min-h-[calc(100vh-200px)]">
+      <slot />
+    </main>
+    <footer class="text-center py-8 bg-gray-100 mt-8">
+      <p>&copy; 2024 NewsFeed. All rights reserved.</p>
+    </footer>
+  </body>
+</html> 

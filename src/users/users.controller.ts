@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -27,5 +27,39 @@ export class UsersController {
     @Body() updateUserDto: Partial<CreateUserDto>,
   ) {
     return this.usersService.updateUser(parseInt(id, 10), updateUserDto);
+  }
+
+  @Post('api/auth/register')
+  async register(
+    @Body()
+    data: {
+      name: string;
+      email: string;
+      password: string;
+      confirmPassword: string;
+    },
+  ) {
+    // Validate passwords match
+    if (data.password !== data.confirmPassword) {
+      throw new HttpException('Passwords do not match', HttpStatus.BAD_REQUEST);
+    }
+
+    // Check if user already exists
+    const existingUser = await this.usersService.findUserByEmail(data.email);
+    if (existingUser) {
+      throw new HttpException('Email already in use', HttpStatus.CONFLICT);
+    }
+
+    // Create new user
+    const user = await this.usersService.createUser({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
+
+    return {
+      message: 'User registered successfully',
+      user,
+    };
   }
 } 
