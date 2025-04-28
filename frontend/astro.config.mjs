@@ -1,24 +1,23 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-
-import tailwindcss from '@tailwindcss/vite';
-
+import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
+  vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, ''),
+        }
       }
     }
   },
-
-  vite: {
-    plugins: [tailwindcss()]
-  },
-
-  integrations: [react()]
+  integrations: [
+    tailwind(),
+    react()
+  ]
 });

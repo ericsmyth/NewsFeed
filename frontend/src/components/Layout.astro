@@ -20,9 +20,10 @@ import '../styles/global.css';
     <header class="bg-white shadow-sm py-4">
       <nav class="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <a href="/" class="text-xl font-bold text-primary no-underline">NewsFeed</a>
-        <div class="flex gap-4">
-          <a href="/login" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">Login</a>
-          <a href="/register" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">Register</a>
+        <div class="flex gap-4" id="navButtons">
+          <a href="/login" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors auth-show">Login</a>
+          <a href="/register" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors auth-show">Register</a>
+          <button id="logoutBtn" class="text-gray-800 no-underline px-4 py-2 rounded-md hover:bg-gray-100 transition-colors auth-hide">Logout</button>
         </div>
       </nav>
     </header>
@@ -33,4 +34,60 @@ import '../styles/global.css';
       <p>&copy; 2025 NewsFeed. All rights reserved.</p>
     </footer>
   </body>
-</html> 
+</html>
+
+<script>
+  // Check if user is logged in using local storage
+  function checkAuthStatus() {
+    try {
+      const authData = localStorage.getItem('auth');
+      const isLoggedIn = !!authData;
+      
+      // Get all auth-show elements (login/register links)
+      const authShowElements = document.querySelectorAll('.auth-show');
+      // Get all auth-hide elements (logout button)
+      const authHideElements = document.querySelectorAll('.auth-hide');
+      
+      if (isLoggedIn) {
+        authShowElements.forEach(el => (el as HTMLElement).style.display = 'none');
+        authHideElements.forEach(el => (el as HTMLElement).style.display = 'inline-block');
+      } else {
+        authShowElements.forEach(el => (el as HTMLElement).style.display = 'inline-block');
+        authHideElements.forEach(el => (el as HTMLElement).style.display = 'none');
+      }
+    } catch (error) {
+      console.error('Error checking auth status:', error);
+    }
+  }
+
+  // Handle logout
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      try {
+        localStorage.removeItem('auth');
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Error logging out:', error);
+      }
+    });
+  }
+
+  // Check auth status when page loads
+  document.addEventListener('DOMContentLoaded', checkAuthStatus);
+  // Also check immediately in case DOMContentLoaded has already fired
+  checkAuthStatus();
+</script>
+
+<style>
+  .auth-hide {
+    display: none;
+  }
+  
+  #logoutBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+  }
+</style> 

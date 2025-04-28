@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useAuth } from '../lib/auth';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -10,17 +11,28 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    // Handle form submission
-    console.log(data);
+    try {
+      await login(data.email, data.password);
+      // Use window.location for full page navigation in Astro
+      window.location.href = '/user';
+    } catch (error) {
+      console.error('Login form error:', error);
+      setError('root', {
+        type: 'manual',
+        message: 'Invalid email or password',
+      });
+    }
   };
 
   return (
@@ -60,6 +72,9 @@ export default function LoginForm() {
               <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
+          {errors.root && (
+            <p className="text-red-500 text-sm text-center">{errors.root.message}</p>
+          )}
           <button
             type="submit"
             disabled={isSubmitting}

@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useAuth } from '../lib/auth';
+import { useNavigate } from 'react-router-dom';
 
 const registerSchema = z
   .object({
@@ -23,17 +25,47 @@ const registerSchema = z
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    // Handle form submission
-    console.log(data);
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Registration failed');
+      }
+
+      const result = await response.json();
+      
+      // Log the user in after successful registration
+      await login(data.email, data.password);
+      navigate('/user');
+    } catch (error) {
+      setError('root', {
+        type: 'manual',
+        message: error instanceof Error ? error.message : 'Registration failed',
+      });
+    }
   };
 
   return (
@@ -105,6 +137,9 @@ export default function RegisterForm() {
               <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
             )}
           </div>
+          {errors.root && (
+            <p className="text-red-500 text-sm text-center">{errors.root.message}</p>
+          )}
           <button
             type="submit"
             disabled={isSubmitting}
