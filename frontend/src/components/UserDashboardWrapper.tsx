@@ -8,6 +8,7 @@ export default function UserDashboardWrapper() {
   const [currentTheme, setCurrentTheme] = useState<Theme>(getStoredTheme());
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const auth = useAuth();
+  const userName = auth.user?.name || 'User';
 
   useEffect(() => {
     console.log('Running auth check effect...');
@@ -73,6 +74,7 @@ export default function UserDashboardWrapper() {
   // Only render if authenticated
   return isAuthenticated ? (
     <div className="max-w-md mx-auto">
+      <h1 className="text-3xl font-bold mb-8 text-center">Welcome back, {userName}!</h1>
       <h2 className="text-2xl font-bold mb-6">Theme Settings</h2>
       <div className="space-y-4">
         <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
