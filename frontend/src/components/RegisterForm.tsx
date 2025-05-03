@@ -50,71 +50,71 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Register</h1>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <div className="min-h-[80vh] flex items-center justify-center px-4">
+      <div className="login-form">
+        <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2">
-            <label htmlFor="name" className="block font-medium text-gray-700">
+            <label htmlFor="name" className="block text-sm font-medium">
               Name
             </label>
             <input
               {...register('name')}
               id="name"
               type="text"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 ${
+                errors.name ? 'border-red-500 dark:border-red-500' : ''
               }`}
             />
             {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+              <p className="text-red-500 dark:text-red-400 text-sm">{errors.name.message}</p>
             )}
           </div>
           <div className="space-y-2">
-            <label htmlFor="email" className="block font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium">
               Email
             </label>
             <input
               {...register('email')}
               id="email"
               type="email"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 ${
+                errors.email ? 'border-red-500 dark:border-red-500' : ''
               }`}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 dark:text-red-400 text-sm">{errors.email.message}</p>
             )}
           </div>
           <div className="space-y-2">
-            <label htmlFor="password" className="block font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium">
               Password
             </label>
             <input
               {...register('password')}
               id="password"
               type="password"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.password ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-3 py-2 ${
+                errors.password ? 'border-red-500 dark:border-red-500' : ''
               }`}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+              <p className="text-red-500 dark:text-red-400 text-sm">{errors.password.message}</p>
             )}
           </div>
           {errors.root && (
-            <p className="text-red-500 text-sm text-center">{errors.root.message}</p>
+            <p className="text-red-500 dark:text-red-400 text-sm text-center">{errors.root.message}</p>
           )}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-primary text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-primary hover:bg-blue-700 dark:hover:bg-blue-600 text-white py-2 px-4 rounded-md transition-colors"
           >
             {isSubmitting ? 'Registering...' : 'Register'}
           </button>
-          <p className="text-center mt-4 text-gray-600">
+          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <a href="/login" className="text-primary hover:underline">
+            <a href="/login" className="text-primary hover:text-blue-700 dark:hover:text-blue-400">
               Login here
             </a>
           </p>

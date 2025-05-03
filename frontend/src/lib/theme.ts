@@ -1,8 +1,8 @@
 export type Theme = 'light' | 'dark' | 'system';
 
 export function getStoredTheme(): Theme {
-  if (typeof window === 'undefined') return 'system';
-  return (localStorage.getItem('theme') as Theme) || 'system';
+  if (typeof window === 'undefined') return 'light';
+  return (localStorage.getItem('theme') as Theme) || 'light';
 }
 
 export function setStoredTheme(theme: Theme) {

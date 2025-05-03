@@ -9,7 +9,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const typeorm_1 = require("@nestjs/typeorm");
 const prisma_service_1 = require("./prisma/prisma.service");
+const news_module_1 = require("./api/news/news.module");
+const auth_module_1 = require("./api/auth/auth.module");
+const news_entity_1 = require("./api/news/entities/news.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -19,6 +23,14 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
             }),
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'sqlite',
+                database: 'news.db',
+                entities: [news_entity_1.News],
+                synchronize: true,
+            }),
+            news_module_1.NewsModule,
+            auth_module_1.AuthModule,
         ],
         providers: [prisma_service_1.PrismaService],
     })

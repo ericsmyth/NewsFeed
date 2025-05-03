@@ -6,6 +6,48 @@
   --primary-color: #2563eb;
 }
 
+.dark {
+  --primary-color: #3b82f6;
+}
+
 body {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+}
+
+/* Form elements */
+input, select, textarea {
+  @apply bg-white dark:bg-gray-800 
+         text-gray-900 dark:text-gray-100 
+         border border-gray-200 dark:border-gray-700
+         focus:ring-2 focus:ring-primary focus:border-transparent
+         rounded-md;
+}
+
+/* Buttons */
+button {
+  @apply text-gray-900 dark:text-gray-100
+         disabled:opacity-50 disabled:cursor-not-allowed
+         transition-colors duration-200;
+}
+
+/* Links */
+a {
+  @apply text-primary hover:text-blue-700 dark:hover:text-blue-400
+         transition-colors duration-200;
+}
+
+/* Cards and containers */
+.card {
+  @apply bg-white dark:bg-gray-800 
+         border border-gray-200 dark:border-gray-700
+         shadow-sm rounded-lg;
+}
+
+/* Login form specific */
+.login-form {
+  @apply bg-white dark:bg-gray-800 
+         shadow-lg rounded-lg 
+         p-8 
+         max-w-md w-full 
+         mx-auto;
 }
