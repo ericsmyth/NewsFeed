@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewsController = void 0;
 const common_1 = require("@nestjs/common");
 const news_service_1 = require("../services/news.service");
+const swagger_1 = require("@nestjs/swagger");
 let NewsController = class NewsController {
     newsService;
     constructor(newsService) {
@@ -23,16 +24,17 @@ let NewsController = class NewsController {
     async getTopHeadlines(country, category, sources, pageSize, page) {
         return await this.newsService.fetchTopHeadlines(country, category, sources, pageSize, page);
     }
-    async searchNews(query, from, to, pageSize, page) {
-        return await this.newsService.searchNews(query, from, to, pageSize, page);
-    }
-    async getAllNews() {
-        return await this.newsService.getAllSavedNews();
-    }
 };
 exports.NewsController = NewsController;
 __decorate([
     (0, common_1.Get)('top-headlines'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get top headlines' }),
+    (0, swagger_1.ApiQuery)({ name: 'country', required: false, example: 'us' }),
+    (0, swagger_1.ApiQuery)({ name: 'category', required: false, example: 'technology' }),
+    (0, swagger_1.ApiQuery)({ name: 'sources', required: false, example: 'bbc-news' }),
+    (0, swagger_1.ApiQuery)({ name: 'pageSize', required: false, type: 'number', example: 10 }),
+    (0, swagger_1.ApiQuery)({ name: 'page', required: false, type: 'number', example: 1 }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Successfully retrieved top headlines' }),
     __param(0, (0, common_1.Query)('country')),
     __param(1, (0, common_1.Query)('category')),
     __param(2, (0, common_1.Query)('sources')),
@@ -42,24 +44,8 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, Number, Number]),
     __metadata("design:returntype", Promise)
 ], NewsController.prototype, "getTopHeadlines", null);
-__decorate([
-    (0, common_1.Get)('search'),
-    __param(0, (0, common_1.Query)('q')),
-    __param(1, (0, common_1.Query)('from')),
-    __param(2, (0, common_1.Query)('to')),
-    __param(3, (0, common_1.Query)('pageSize')),
-    __param(4, (0, common_1.Query)('page')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, Number, Number]),
-    __metadata("design:returntype", Promise)
-], NewsController.prototype, "searchNews", null);
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], NewsController.prototype, "getAllNews", null);
 exports.NewsController = NewsController = __decorate([
+    (0, swagger_1.ApiTags)('news'),
     (0, common_1.Controller)('news'),
     __metadata("design:paramtypes", [news_service_1.NewsService])
 ], NewsController);
