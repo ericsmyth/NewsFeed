@@ -21,6 +21,107 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+# NewsFeed Application
+
+A full-stack news application built with NestJS (backend) and Astro.js (frontend).
+
+## Project Structure
+
+```text
+/
+├── backend/           # NestJS backend
+│   ├── src/          # Source code
+│   ├── prisma/       # Database schema and migrations
+│   └── package.json  # Backend dependencies
+│
+├── frontend/         # Astro.js frontend
+│   ├── src/          # Source code
+│   ├── public/       # Static assets
+│   └── package.json  # Frontend dependencies
+│
+└── package.json      # Root project configuration
+```
+
+## Backend (NestJS)
+
+The backend is built with NestJS, a progressive Node.js framework for building efficient and scalable server-side applications.
+
+### Setup
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install dependencies
+npm install
+
+# Development
+npm run start:dev
+
+# Production
+npm run start:prod
+```
+
+### API Documentation
+
+The API documentation is available at `http://localhost:3000/api` when the backend is running.
+
+#### Available Endpoints
+
+- `POST /auth/register` - Register a new user
+- `POST /auth/login` - Login user
+- `GET /news/top-headlines` - Get top news headlines
+
+## Frontend (Astro.js)
+
+The frontend is built with Astro.js, a modern static site builder that delivers lightning-fast performance.
+
+### Setup
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Development
+npm run dev
+
+# Build
+npm run build
+
+# Preview
+npm run preview
+```
+
+### Development Server
+
+The development server runs at `http://localhost:4321` by default.
+
+## Environment Variables
+
+### Backend
+
+Create a `.env` file in the backend directory:
+
+```env
+NEWS_API_KEY=your_news_api_key
+JWT_SECRET=your_jwt_secret
+```
+
+### Frontend
+
+Create a `.env` file in the frontend directory:
+
+```env
+PUBLIC_API_URL=http://localhost:3000
+```
+
+## License
+
+This project is licensed under the MIT License.
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
