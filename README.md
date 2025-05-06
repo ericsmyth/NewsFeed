@@ -23,7 +23,18 @@
 
 # NewsFeed Application
 
+![NewsFeed Application](NewsFeed.png)
+
 A full-stack news application built with NestJS (backend) and Astro.js (frontend).
+
+## Prerequisites
+
+Before you begin, you'll need to:
+
+1. Sign up for a free API key at [NewsAPI.org](https://newsapi.org)
+   - Visit [https://newsapi.org/register](https://newsapi.org/register)
+   - Create an account and get your API key
+   - The free tier includes 100 requests per day
 
 ## Project Structure
 
@@ -106,7 +117,7 @@ The development server runs at `http://localhost:4321` by default.
 Create a `.env` file in the backend directory:
 
 ```env
-NEWS_API_KEY=your_news_api_key
+NEWS_API_KEY=your_news_api_key  # Get this from https://newsapi.org/register
 JWT_SECRET=your_jwt_secret
 ```
 
