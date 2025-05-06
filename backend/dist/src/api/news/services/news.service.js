@@ -8,26 +8,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewsService = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
-const news_entity_1 = require("../entities/news.entity");
+const prisma_service_1 = require("../../../prisma/prisma.service");
 let NewsService = class NewsService {
-    newsRepository;
+    prisma;
     newsApiUrl = 'https://newsapi.org/v2';
-    apiKey = process.env.NEWS_API_KEY;
-    constructor(newsRepository) {
-        this.newsRepository = newsRepository;
+    apiKey = process.env.NEWS_API_KEY?.replace(/['"]/g, '');
+    constructor(prisma) {
+        this.prisma = prisma;
     }
     async fetchTopHeadlines(country, category, sources, pageSize = 20, page = 1) {
         try {
+            if (!this.apiKey) {
+                throw new Error('NEWS_API_KEY environment variable is not set');
+            }
             const params = new URLSearchParams();
-            params.append('apiKey', this.apiKey || '');
+            params.append('apiKey', this.apiKey);
             params.append('pageSize', pageSize.toString());
             params.append('page', page.toString());
             if (sources) {
@@ -57,11 +55,14 @@ let NewsService = class NewsService {
     }
     async searchNews(query, from, to, pageSize = 20, page = 1) {
         try {
+            if (!this.apiKey) {
+                throw new Error('NEWS_API_KEY environment variable is not set');
+            }
             const params = new URLSearchParams({
                 q: query,
                 pageSize: pageSize.toString(),
                 page: page.toString(),
-                apiKey: this.apiKey || '',
+                apiKey: this.apiKey,
                 sortBy: 'publishedAt'
             });
             if (from)
@@ -80,9 +81,9 @@ let NewsService = class NewsService {
         }
     }
     async getAllSavedNews() {
-        return await this.newsRepository.find({
-            order: {
-                createdAt: 'DESC',
+        return await this.prisma.newsArticle.findMany({
+            orderBy: {
+                createdAt: 'desc',
             },
         });
     }
@@ -90,7 +91,6 @@ let NewsService = class NewsService {
 exports.NewsService = NewsService;
 exports.NewsService = NewsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(news_entity_1.News)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], NewsService);
 //# sourceMappingURL=news.service.js.map

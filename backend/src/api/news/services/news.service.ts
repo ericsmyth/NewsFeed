@@ -1,17 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { News } from '../entities/news.entity';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
 export class NewsService {
   private readonly newsApiUrl = 'https://newsapi.org/v2';
-  private readonly apiKey = process.env.NEWS_API_KEY;
+  private readonly apiKey = process.env.NEWS_API_KEY?.replace(/['"]/g, '');
 
-  constructor(
-    @InjectRepository(News)
-    private newsRepository: Repository<News>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async fetchTopHeadlines(
     country?: string,
@@ -21,10 +16,14 @@ export class NewsService {
     page: number = 1,
   ) {
     try {
+      if (!this.apiKey) {
+        throw new Error('NEWS_API_KEY environment variable is not set');
+      }
+
       const params = new URLSearchParams();
       
       // Add required parameters
-      params.append('apiKey', this.apiKey || '');
+      params.append('apiKey', this.apiKey);
       params.append('pageSize', pageSize.toString());
       params.append('page', page.toString());
 
@@ -63,11 +62,15 @@ export class NewsService {
     page: number = 1,
   ) {
     try {
+      if (!this.apiKey) {
+        throw new Error('NEWS_API_KEY environment variable is not set');
+      }
+
       const params = new URLSearchParams({
         q: query,
         pageSize: pageSize.toString(),
         page: page.toString(),
-        apiKey: this.apiKey || '',
+        apiKey: this.apiKey,
         sortBy: 'publishedAt'
       });
 
@@ -88,9 +91,9 @@ export class NewsService {
   }
 
   async getAllSavedNews() {
-    return await this.newsRepository.find({
-      order: {
-        createdAt: 'DESC',
+    return await this.prisma.newsArticle.findMany({
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }

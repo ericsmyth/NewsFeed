@@ -9,10 +9,10 @@ export declare class AuthController {
     }): Promise<{
         user: {
             id: number;
-            email: string;
-            name: string | null;
             createdAt: Date;
             updatedAt: Date;
+            name: string | null;
+            email: string;
         };
         access_token: string;
     }>;
@@ -22,10 +22,10 @@ export declare class AuthController {
     }): Promise<{
         user: {
             id: number;
-            email: string;
-            name: string | null;
             createdAt: Date;
             updatedAt: Date;
+            name: string | null;
+            email: string;
         };
         access_token: string;
     }>;

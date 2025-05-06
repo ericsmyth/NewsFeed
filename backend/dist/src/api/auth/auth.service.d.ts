@@ -13,8 +13,8 @@ export declare class AuthService {
             id: number;
             createdAt: Date;
             updatedAt: Date;
-            email: string;
             name: string | null;
+            email: string;
         };
         access_token: string;
     }>;
@@ -26,8 +26,8 @@ export declare class AuthService {
             id: number;
             createdAt: Date;
             updatedAt: Date;
-            email: string;
             name: string | null;
+            email: string;
         };
         access_token: string;
     }>;

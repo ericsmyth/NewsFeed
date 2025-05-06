@@ -44,18 +44,31 @@ export const UserDashboardWrapper = () => {
   return (
     <div className="min-h-screen">
       <div className="mx-auto w-full h-full" style={{ maxWidth: '1280px' }}>
+        {/* Top Navigation (visible on small screens) */}
+        <div className="md:hidden">
+          <UserSidebar 
+            user={user} 
+            currentTheme={currentTheme} 
+            onThemeChange={handleThemeChange}
+            isMobile={true}
+          />
+        </div>
+
         <div className="flex min-h-screen">
           {/* Main content area */}
           <div className="flex-1 overflow-auto px-4 py-6">
             <NewsApiOrg />
           </div>
 
-          {/* Sidebar */}
-          <UserSidebar 
-            user={user} 
-            currentTheme={currentTheme} 
-            onThemeChange={handleThemeChange} 
-          />
+          {/* Sidebar (hidden on small screens) */}
+          <div className="hidden md:block">
+            <UserSidebar 
+              user={user} 
+              currentTheme={currentTheme} 
+              onThemeChange={handleThemeChange}
+              isMobile={false}
+            />
+          </div>
         </div>
       </div>
     </div>
