@@ -24,10 +24,12 @@ export const UserSidebar: React.FC<UserSidebarProps> = ({
         <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2 sm:mb-0">
           Welcome, {user.name || 'User'}
         </h2>
+        <label htmlFor="theme-select" className="sr-only">Theme:</label>
         <select
           value={currentTheme}
           onChange={(e) => onThemeChange(e.target.value as Theme)}
           className="px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white text-sm"
+          id="theme-select"
         >
           <option value="light">Light</option>
           <option value="dark">Dark</option>

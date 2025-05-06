@@ -73,7 +73,7 @@ describe('UserSidebar', () => {
   it('renders default user name when name is not provided', () => {
     render(
       <UserSidebar
-        user={{}}
+        user={{ name: ''}}
         currentTheme={currentTheme}
         onThemeChange={mockOnThemeChange}
       />
